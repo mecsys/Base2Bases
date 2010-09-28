@@ -10,22 +10,23 @@
   
   ### CONCLUÍDOS ###
   19/09/2010 - Decimal para binario e hexadecimal concluído.
+  26/09/2010 - Binario para decimal e hexadecimal concluido.
   
   ### PENDÊNCIAS ###
   * heximadecimal para binario e decimal
-  * binario para hexadecimal e decimal  
+  
 */
 #include <stdio.h>
 #include <locale.h>    /* Biblioteca necessária para uso de configurações regionais. */
 #include <stdlib.h>
-#define MAX_BIT 16 // Este programa trabalha com números de 16 bits, inteiros e maiores que "0".
+#define MAX_BIT 4// Este programa trabalha com números de 16 bits, inteiros e maiores que "0".
 #define TRUE 1
 #define FALSE 0
 
 // modulo decimal para binario e hexadecimal
 // modulo int2hex converte nr de 10 a 15 a suas respectivas letras Hex.
 void dec2bin(int num);
-void dec2hex(int num);
+void dec2hex(int num,char *disp);
 void int2hex(char vet[]);
 
 // modulo hexadecimal para decimal e binario
@@ -34,7 +35,7 @@ void hex2dec(int num);
 
 // modulo binario para hexadecimal e decimal
 void bin2hex(char * str);
-void bin2dec(char * str);
+int bin2dec(char * str, int disp);
 
 // função help
 void help(void);
@@ -60,19 +61,18 @@ int main(int argc, char *argv[]){ // * Usar atoi() para argv to int.
 } 
  opt = argv[1][0]; 
  switch (opt){
-	case 'b':
-		bin2dec(argv[2]);
+	case 'b':        
+		bin2dec(argv[2],TRUE);
 		bin2hex(argv[2]);
 		break;
 	case 'd':
-		num = atoi(argv[2]);
-		
+		num = atoi(argv[2]);		
 		if(num <= 0 || num > 65535){
 			printf("WARNING: Operação inválida!\n");
 			exit(1);
 		}
 		dec2bin(num);
-		dec2hex(num);
+		dec2hex(num,"Hexadecimal");
 		break;
 	
 	case 'h':
@@ -82,18 +82,24 @@ int main(int argc, char *argv[]){ // * Usar atoi() para argv to int.
  return 0;
 }
 
-void bin2dec(char * str){
-	//int d=0;
-	char dec[MAX_BIT];
-	
-	strcpy(dec,str);
-	printf("--> %s\n",str);
-	printf("--> %s\n",dec);
-	
+
+int bin2dec(char *str, int disp){
+     int i=0,c=0; 
+
+ for(i=0;i<MAX_BIT;++i)
+    if(str[i] == '1')
+       c += pow(2,i);
+    if(disp)
+       printf("\nConvertido Para Decimal:\n");
+ 
+ return c;
 }
 
-void bin2hex(char * str){
-	
+void bin2hex(char *str){
+    int b;
+    b = bin2dec(str,FALSE);
+    printf("\n%d\n",b);    
+	dec2hex(b,"Hexadecimal");
 }
 
 void int2hex(char vet[]){
@@ -132,11 +138,11 @@ void int2hex(char vet[]){
            printf("\n");     
      }
 
-void dec2hex(int num){
+void dec2hex(int num,char *disp){
      int h;
      char hex[MAX_BIT];
      
-     printf("\nConvertido Para Base Hexadecimal:\n\n");
+     printf("\nConvertido Para Base %s:\n\n",disp);
      //printf("%d\n",num); //para debug
      for(h = 0; h < MAX_BIT; ++h)
            hex[h] = 0;
