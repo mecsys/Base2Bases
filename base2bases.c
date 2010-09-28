@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <locale.h>    /* Biblioteca necessária para uso de configurações regionais. */
 #include <stdlib.h>
+#include <math.h>
 #define MAX_BIT 4// Este programa trabalha com números de 16 bits, inteiros e maiores que "0".
 #define TRUE 1
 #define FALSE 0
