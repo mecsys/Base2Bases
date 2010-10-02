@@ -17,10 +17,10 @@
   
 */
 #include <stdio.h>
+#include <math.h>
 #include <locale.h>    /* Biblioteca necessária para uso de configurações regionais. */
 #include <stdlib.h>
-#include <math.h>
-#define MAX_BIT 4// Este programa trabalha com números de 16 bits, inteiros e maiores que "0".
+#define MAX_BIT 16// Este programa trabalha com números de 16 bits, inteiros e maiores que "0".
 #define TRUE 1
 #define FALSE 0
 
@@ -51,6 +51,11 @@ void help(void);
  * para acessar os carecteres, use argv[1][x], onde o x são os indíces 
  * desta String.
  * 
+ * # para usar a biblioteca math.h sera preciso linkar
+ * com o parâmetro ( -lm ).
+ * 
+ * ex.: gcc -Wall -o test -lm test.c
+
  * */
 int main(int argc, char *argv[]){ // * Usar atoi() para argv to int.
  int num=0;
@@ -89,7 +94,8 @@ int bin2dec(char *str, int disp){
 
  for(i=0;i<MAX_BIT;++i)
     if(str[i] == '1')
-       c += pow(2,i);
+       c += pow(2,i);       
+       
     if(disp)
        printf("\nConvertido Para Decimal:\n");
  
