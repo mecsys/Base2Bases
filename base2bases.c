@@ -11,9 +11,10 @@
   ### CONCLUÍDOS ###
   19/09/2010 - Decimal para binario e hexadecimal concluído.
   26/09/2010 - Binario para decimal e hexadecimal concluido.
+  03/10/2010 - Hexadecimal para decimal e binário concluído.
   
   ### PENDÊNCIAS ###
-  * heximadecimal para binario e decimal
+  
   
 */
 #include <stdio.h>
@@ -26,13 +27,13 @@
 
 // modulo decimal para binario e hexadecimal
 // modulo int2hex converte nr de 10 a 15 a suas respectivas letras Hex.
-void dec2bin(int num);
-void dec2hex(int num,char *disp);
+void dec2bin(int num, int disp);
+void dec2hex(int num,char *label);
 void int2hex(char vet[]);
 
 // modulo hexadecimal para decimal e binario
-void hex2bin(int num);
-void hex2dec(int num);
+void hex2bin(char *str,char *label, int disp);
+int hex2dec(char *str, char *label, int disp);
 
 // modulo binario para hexadecimal e decimal
 void bin2hex(char * str);
@@ -67,7 +68,12 @@ int main(int argc, char *argv[]){ // * Usar atoi() para argv to int.
 } 
  opt = argv[1][0]; 
  switch (opt){
-	case 'b':        
+	case 'b':    
+		num = atoi(argv[2]);		
+		if(num <= 0 || num > 65535){
+			printf("WARNING: Operação inválida!\n");
+			exit(1);
+		}
 		bin2dec(argv[2],TRUE);
 		bin2hex(argv[2]);
 		break;
@@ -77,15 +83,57 @@ int main(int argc, char *argv[]){ // * Usar atoi() para argv to int.
 			printf("WARNING: Operação inválida!\n");
 			exit(1);
 		}
-		dec2bin(num);
+		dec2bin(num,TRUE);
 		dec2hex(num,"Hexadecimal");
 		break;
 	
-	case 'h':
-		printf("Hexadecimal\n");
+	case 'h':		
+		hex2dec(argv[2],"Decimal",TRUE);
+		hex2bin(argv[2],"Binário",FALSE);		
 		break;
 	} 
  return 0;
+}
+
+int hex2dec(char *str,char *label, int disp){
+	int i,aux=0,r=0;
+	
+	printf("\nConvertido Para %s:\n\n",label);	
+	for(i=4-1;i>=0;--i){				
+		if(str[i] == 'A' || str[i] == 'a')			
+			aux = 10;
+        if(str[i] == 'B' || str[i] == 'b') 
+            aux = 11;
+        if(str[i] == 'C' || str[i] == 'c')            
+            aux = 12;
+        if(str[i] == 'D' || str[i] == 'd')        
+            aux = 13;
+        if(str[i] == 'E' || str[i] == 'e')			
+			aux = 14;
+        if(str[i] == 'F' || str[i] == 'f')           
+            aux = 15;
+		if(str[i] == '1' || str[i] == '2' ||
+		   str[i] == '3' || str[i] == '4' ||
+		   str[i] == '5' || str[i] == '6' ||
+		   str[i] == '7' || str[i] == '8' ||
+		   str[i] == '9') 
+			aux = str[i]-'0';
+		
+		r += (aux)*(pow(16,i));
+		//if(disp)
+			//printf("%d * 16 ^ %d = %d\n",aux,i,r);			
+	}
+	if(disp)
+		printf("%d\n",r);
+	return r;
+}
+
+void hex2bin(char *str,char *label, int disp){
+	int h;
+		
+	h = hex2dec(str,label,disp);
+	dec2bin(h,FALSE);
+		 
 }
 
 
@@ -110,70 +158,52 @@ void bin2hex(char *str){
 }
 
 void int2hex(char vet[]){
-     int i,aux=0;
+     int i;
      
      for(i = 0; i < MAX_BIT; ++i){
-           if(vet[i] == 10){
-                printf("A");
-                aux = TRUE;
-                }
-           if(vet[i] == 11){
-                printf("B");
-                 aux = TRUE;
-                }
-           if(vet[i] == 12){
-                printf("C");
-                 aux = TRUE;
-                }                     
-           if(vet[i] == 13){
-                printf("D");
-                 aux = TRUE;
-                }                     
-           if(vet[i] == 14){
-				printf("E");
-				aux = TRUE;
-                }                     
-           if(vet[i] == 15){
-                printf("F");
-                aux = TRUE;
-                }                     
+           if(vet[i] == 10)
+                printf("A");                
+           if(vet[i] == 11)
+                printf("B");                 
+           if(vet[i] == 12)
+                printf("C");                   
+           if(vet[i] == 13)
+                printf("D");                   
+           if(vet[i] == 14)
+				printf("E");				         
+           if(vet[i] == 15)
+                printf("F");                     
            if(vet[i] >= 0 && vet[i] <10)
-               	printf("%d",vet[i]);
-           //if(aux == 1 && vet[i] == 0)
-           	//printf("%d",vet[i]);
-           }
-           printf("\n");     
+               	printf("%d",vet[i]);               
+	   }
+	   printf("\n");
      }
 
-void dec2hex(int num,char *disp){
+void dec2hex(int num,char *label){
      int h;
      char hex[MAX_BIT];
      
-     printf("\nConvertido Para Base %s:\n\n",disp);
-     //printf("%d\n",num); //para debug
+     printf("\nConvertido Para Base %s:\n\n",label);     
      for(h = 0; h < MAX_BIT; ++h)
            hex[h] = 0;
      for(h = MAX_BIT -1; h >=0; --h){
            hex[h] = num%16;
-           num /= 16; 
-           //printf("%d",hex[h]); //para debug
-           }
-           //printf("\n%d\n",h); //para debug
+           num /= 16;            
+           }           
            int2hex(hex);     
      }
      
-void dec2bin(int num){
+void dec2bin(int num, int disp){
      int b;
      char bin[MAX_BIT];
      
-     printf("\nConvertido Para Base Binaria:\n\n");
-     //printf("%d\n",num);  //para debug
+     if(disp)
+		printf("\nConvertido Para Base Binaria:\n\n");     
      for(b = MAX_BIT - 1; b >= 0; --b){
            bin[b] = num%2;
-           num /= 2;        
-           //printf("%d",bin[i]); //para debug      
+           num /= 2;                   
        }
-     //printf("\n%d\n",i); //para debug
+     
      for(b = 0; b < MAX_BIT; ++b){
            if( b == 4 || b == 8 || b == 12)
                  printf(" -- ");       
