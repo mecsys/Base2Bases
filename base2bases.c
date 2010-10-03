@@ -14,7 +14,7 @@
   03/10/2010 - Hexadecimal para decimal e binário concluído.
   
   ### PENDÊNCIAS ###
-  
+  Testes e debugs
   
 */
 #include <stdio.h>
