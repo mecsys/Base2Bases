@@ -24,10 +24,9 @@
 //  	### CONCLUÍDOS ###
 //  	19/09/2010 - Decimal para binario e hexadecimal concluído.
 //  	26/09/2010 - Binario para decimal e hexadecimal concluido.
-//  	03/10/2010 - Hexadecimal para decimal e binário concluído.
-//  
-//  	### PENDÊNCIAS ###
-//		Correções finais	
+//  	02/10/2010 - Hexadecimal para decimal e binário concluído.
+//  	04/10/2010 - Correções finais.
+//  	### PENDÊNCIAS ###//			
 //  	Testes e debugs 
 //
 #include <stdio.h>
@@ -56,7 +55,7 @@ int bin2dec(char * str, int disp);
 
 // função help e warning
 void help(void);
-void warning();
+void warning(int n, char *label);
 
 /*
  * NOTA: Usar atoi() para argv to int.
@@ -83,29 +82,20 @@ int main(int argc, char *argv[]){
  switch (opt){
 	case 'b':    
 		num = strlen(argv[2]);
-		if(num > MAX_BIT){
-			printf("WARNING: Operação inválida!\n");
-			exit(EXIT_FAILURE);
-		}
+		if(num > MAX_BIT) warning(num, "Número > que 16 bits");		
 		bin2dec(argv[2],TRUE);
 		bin2hex(argv[2]);
 		break;
 	case 'd':
 		num = atoi(argv[2]);		
-		if(num <= 0 || num > 65535){
-			printf("WARNING: Operação inválida!\n");
-			exit(EXIT_FAILURE);
-		}
+		if(num <= 0 || num > 65535) warning(num, "Número > que 65.535");		
 		dec2bin(num,TRUE);
 		dec2hex(num,"Hexadecimal");
 		break;
 	
 	case 'h':		
 		num = strlen(argv[2]);
-		if(num > 4){
-			printf("WARNING: Operação inválida!\n");
-			exit(EXIT_FAILURE);
-		}
+		if(num > 4) warning(num, "Número > que 16 bits em Hexadecimal");
 		hex2dec(argv[2],"Decimal",TRUE);
 		hex2bin(argv[2],"Binário",FALSE);		
 		break;
@@ -236,4 +226,9 @@ void help(void){
 	printf("\t Isaac Mechi - R.A.: 0813506479 C.Computação FAC IV\n\n");
 }
 
-void warning();
+void warning(int num, char *label){			
+	printf("\nWARNING: Operação inválida!\n\n");	
+	printf("%s\n",label);
+	printf("Entrada: %d\n\n",num);
+	exit(EXIT_FAILURE);
+}
