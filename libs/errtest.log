@@ -1,0 +1,13 @@
+log_ret failed to open foo: No such file or directory
+log_quit failed to open foo: No such file or directory
+log_ret failed to open foo: No such file or directory
+log_quit failed to open foo: No such file or directory
+log_ret failed to open foo: No such file or directory
+log_quit failed to open foo: No such file or directory
+log_ret failed to open foo: No such file or directory
+log_ret failed to open foo: No such file or directory
+log_quit failed to open foo: No such file or directory
+log_ret failed to open foo: No such file or directory
+log_ret failed to open foo: No such file or directory
+log_quit failed to open foo: No such file or directory
+log_quit FALHOU AO ABRIR foo - EXIT 1: No such file or directory
