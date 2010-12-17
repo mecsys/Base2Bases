@@ -31,11 +31,11 @@
 //
 #include <stdio.h>
 #include <math.h>
-#include <locale.h>    // Biblioteca necessária para uso de configurações regionais.
+#include <locale.h>    // Biblioteca para uso de configurações regionais.
 #include <string.h>
 #include <stdlib.h>
 
-#define MAX_BIT 16	// Este programa trabalha com números de 16 bits, inteiros e maiores que "0".
+#define MAX_BIT 16	// Este programa trabalha com números de 16 bits.
 #define TRUE 1
 #define FALSE 0
 
@@ -57,6 +57,12 @@ int bin2dec(char * str, int disp);
 void help(void);
 void warning(int n, char *label);
 
+
+
+
+
+
+
 /*
  * NOTA: Usar atoi() para argv to int.
  * NOTA: Um método fácil para acessar cada caracter das strings de argv,
@@ -70,6 +76,7 @@ void warning(int n, char *label);
  * com o parâmetro ( -lm ). * 
  * ex.: gcc -Wall -o test -lm test.c
  * */
+ 
 int main(int argc, char *argv[]){
  int num=0;
  char opt;
@@ -102,6 +109,24 @@ int main(int argc, char *argv[]){
 	} 
  return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 int hex2dec(char *str,char *label, int disp){
 	int h,aux=0,r=0;
@@ -158,6 +183,16 @@ void bin2hex(char *str){
 	dec2hex(b,"Hexadecimal");
 }
 
+
+
+
+
+
+
+
+
+
+
 void int2hex(char *vet){
      int i;
      
@@ -205,11 +240,23 @@ void dec2bin(int num, int disp){
        }
      
      for(d = 0; d < MAX_BIT; ++d){
-           if( d == 4 || d == 8 || d == 12) printf(" -- ");       
+     if( d == 4 || d == 8 || d == 12) printf(" -- ");       
            printf("%d",bin[d]);
        }
        printf("\n");     
      }
+
+
+
+
+
+
+
+
+
+
+
+
 
 void help(void){
 	printf("\nNOME\n");
@@ -225,6 +272,7 @@ void help(void){
 	printf("AUTOR\n");
 	printf("\t Isaac Mechi - R.A.: 0813506479 C.Computação FAC IV\n\n");
 }
+
 
 void warning(int num, char *label){			
 	printf("\nWARNING: Operação inválida!\n\n");	
